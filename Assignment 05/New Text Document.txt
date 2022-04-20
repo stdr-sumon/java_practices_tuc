@@ -1,0 +1,156 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package sepb.assignment5;
+
+/**
+ *
+ * @author Sumon
+ */
+public class Stemmer {
+    public static String[] getNGrams(String str, int len){
+        int size = str.length();
+        int arlen = 1;
+        if(len<=size)
+        {
+            arlen = 1 + ( size - len);
+        }
+        String[] star = new String[arlen];
+        if(len<=size)
+        {
+            int index=0;
+            for(int i = 0; i<=size-len; i++ )
+            {
+                String S = "";
+                for(int j = i; j<i+len; j++) {
+                    S = S + str.charAt(j);
+
+                }
+                star[index] = S;
+                index++;
+
+            }
+        }
+        if(len> size)
+        {
+             int characterToappend = len - size;
+             for(int i = 0; i<characterToappend; i++)
+             {
+                 str = str + '*';
+             }
+             star[0] = str;
+
+        }
+        return star;
+    }
+    public static String[] getShared(String[] Set1, String[] Set2)
+    {
+        int size = 0; 
+        for(int i =0 ; i<Set1.length; i++)
+        {
+            for(int j = 0; j<Set2.length; j++)
+            {
+                if(Set1[i].equals(Set2[j]))
+                {
+                    size++;
+                    break;
+                }
+              
+            }
+        }
+        String[] commonSet = new String[size];
+        int Index = 0;
+        for(int i =0 ; i<Set1.length; i++)
+        {
+            for(int j = 0; j<Set2.length; j++)
+            {
+                if(Set1[i].equals(Set2[j]))
+                {
+                    commonSet[Index] = Set1[i];
+                    Index++;
+                    break;
+                }
+             
+            }
+        }
+        return commonSet;
+    }
+    public static float getDistance(String[] set1, String[] set2)
+    {
+        float total = set1.length + set2.length;
+        String[] shared = getShared(set1, set2);
+        float ans =  shared.length / total;
+        return ans;
+    }
+    public static boolean isRelevant(String keyword, String text)
+    {
+        int size = 1; 
+        for(int i = 0; i<text.length(); i++)
+        {
+            if(text.charAt(i)==' ')
+            {
+                size++;
+            }
+        }
+        String[] words =  new String[size];
+        String word = "";
+        int Index = 0; 
+        for(int i = 0; i<text.length(); i++)
+        {
+            if(text.charAt(i)!=' ')
+            {
+                word = word + text.charAt(i);
+            }
+            else
+            {
+                words[Index] = word;
+                Index++;
+                word = "";
+            }
+        }
+        words[Index] = word;
+        boolean IsRelevant = false;
+        for(int i = 0; i<size; i++)
+        {
+            String[] keywordNGrams = getNGrams(keyword, 3);
+            String[] wordNGrams = getNGrams(words[i], 3);
+            float  result = getDistance(keywordNGrams, wordNGrams);
+            if(result >= 0.4)
+            {
+                 IsRelevant = true;
+            }
+                
+    
+        }
+        return IsRelevant;
+    }
+    public static void main(String[] args)
+    {
+        String[] houseNgrams = getNGrams("house", 3);
+        for(int i = 0; i<houseNgrams.length; i++)
+        {
+            System.out.println(houseNgrams[i]);
+        }
+        String[] trousersNGrams = getNGrams("trousers",3);
+        System.out.println();
+        for(int i = 0; i<trousersNGrams.length; i++)
+        {
+            System.out.println(trousersNGrams[i]);
+        }
+        String[] getshared = getShared(houseNgrams, trousersNGrams);
+        System.out.println();
+        for(int i = 0; i< getshared.length; i++)
+        {
+            System.out.println(getshared[i]);
+        }
+        float result = getDistance(houseNgrams, trousersNGrams);
+        System.out.println(result);
+        
+        boolean  IsRelevant = isRelevant("house", "the houseop is clean");
+        System.out.println(IsRelevant);
+        IsRelevant = isRelevant("house", "trousers");
+        System.out.println(IsRelevant);
+
+    }
+}

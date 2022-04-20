@@ -1,0 +1,96 @@
+public static int countSheep(int legs)
+
+public static int furColourRatio(int black, int white)
+
+public static boolean canFeed(int sheep, float hay)
+
+public static double calculateSales(int sheep, double value)
+
+public static int herdDivisors(int sheep) {
+    int count = 0;
+    if (sheep == 0) {
+        return 0;
+    } else {
+        for (int i = 1; i <= sheep; i++) {
+            if (sheep % i == 0) {
+                count+=1;
+            }
+        }
+    }
+    
+    return count;
+}
+
+public static String getColourByID(int id) {
+    boolean prm = false;
+    String furColour = "";
+    int count = 0;
+    for (int i = 2; i <= id; i++) {
+        if (id % i == 0) {
+            count+=1;
+        }
+    }
+    if (count == 1) {
+        prm = true;
+    } else {
+        prm = false;
+    }
+    
+    if (id != 3 && id != 5 && prm == true) {
+        furColour = "lucky";
+    } else if (id % 3 == 0) {
+        furColour = "black";
+    } else if (id % 5 == 0) {
+        furColour = "brown";
+    } else {
+        furColour = "white";
+    }
+    return furColour;
+}
+
+
+
+
+Awlad
+
+public static int countSheep(int legs)
+
+public static int furColourRatio(int black, int white)
+
+public static string countSheep(int sheep, double hay)
+
+public static double calculateSales(int sheep, double value)
+
+public static int herdDivisors(int sheep) {
+    int cnt = 0;
+    int i = 0;
+    while (i <= sheep) {
+    	if (sheep % i == 0) {
+            cnt++;
+        }
+    	i+=1;
+    }
+    return cnt;
+}
+
+
+public static String getColourByID(int id) {
+	int cnt = 0;
+    int i = 2;
+    while (i <= id) {
+    	if (id % i == 0) {
+            cnt++;
+        }
+    	i+=1;
+    }
+
+    if (id % 3 == 0) {
+        return "black";
+    } else if (id % 5 == 0) {
+        return "brown";
+    } else if (cnt == 1) {
+        return "lucky";
+    } else {
+        return "white";
+    }
+}

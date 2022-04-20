@@ -1,0 +1,35 @@
+package assignment4;
+public class Task2
+{
+    public static int[] search(int [][] arr, int size, int element) {
+        int[] arrEmpty = {};     
+        int row = 0; 
+        int col = size - 1;
+        while(row < size && col >= 0) {
+            if (arr[row][col] == element) {
+                return new int[] {row, col};
+            }
+            if (arr[row][col] < element) { 
+                row = row + 1;
+            } else {
+                col--;
+            }
+        }
+        return arrEmpty;
+    }
+    public static void main(String[] args) {
+        int[][] arr =   {
+                            {10, 20, 30, 40, 50}, 
+                            {15, 25, 35, 45, 52}, 
+                            {27, 29, 37, 48, 55}, 
+                            {32, 33, 39, 50, 56}, 
+                            {33, 35, 42, 54, 60}
+                        };
+        int answer[] = search(arr, arr.length, 35);
+        if (answer.length > 0) {
+            System.out.println("Found at (" + answer[0] + ", " + answer[1] + ")");
+        } else {
+            System.out.println("Element not found");
+        }
+    }
+}

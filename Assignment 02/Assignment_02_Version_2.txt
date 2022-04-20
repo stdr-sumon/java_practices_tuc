@@ -1,0 +1,86 @@
+public class Account {
+    private int accountNumber;
+    private int pin;
+    private double balance;
+    
+    public Account(int accountNumber, int pin) {
+        this.accountNumber = accountNumber;
+        this.balance = 0.0;
+        int checkSum = 0;
+        while(pin > 0) {
+            int a = pin % 10;
+            checkSum += a;
+            pin /= 10;
+        }
+        this.pin = checkSum;        
+    }
+    public void credit(double amount) {
+        this.balance += amount; 
+    }
+    
+    public boolean debit(double amount, int pin) {
+        int checkSum = 0;
+        boolean feedBack = false;
+        while(pin > 0) {
+            int a = pin % 10;
+            checkSum += a;
+            pin /= 10;
+        }
+        if (this.pin == checkSum) {
+            if (this.balance >= amount) {
+                this.balance -= amount;
+                feedBack = true;
+            }
+        }
+        return feedBack;
+    }
+    
+    public boolean transferTo(Account accObj, double amount, int pin) {
+        int checkSum = 0;
+        boolean feedBack = false;
+        while(pin > 0) {
+            int a = pin % 10;
+            checkSum += a;
+            pin /= 10;
+        }
+        if (this.pin == checkSum) {
+            if (this.balance >= amount) {
+                feedBack = true;
+            }
+        }
+        if (feedBack) {
+            this.balance -= amount;
+            accObj.balance += amount;
+        }
+        return feedBack;
+    }
+    
+    //getter 
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public int getPin() {
+        return pin;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+    
+    public static void main(String[] args) {
+        Account petersAccount = new Account(1010101, 4567);
+        petersAccount.getAccountNumber(); // returns 1010101
+        petersAccount.getPin(); // returns 22
+        petersAccount.credit(5000.0);
+        petersAccount.getBalance(); // returns 5000.0
+        petersAccount.debit(150.0, 4567); // returns true
+        petersAccount.debit(150.0, 4577); // returns false (wrong pin)
+        petersAccount.debit(5500.0, 4567); // returns false (not enough money on the account)
+        petersAccount.getBalance(); // returns 4850.0 (150 were debited once)
+        Account sallysAccount = new Account(1010102, 9984);
+        petersAccount.transferTo(sallysAccount, 563.5, 4567); //returns true
+        petersAccount.getBalance(); //returns 4286.5
+        sallysAccount.getBalance(); //returns 563.5
+    }
+}
